@@ -1,33 +1,38 @@
-﻿Build started 4/15/2011 8:44:34 AM.
-Project "c:\Users\alexw\documents\visual studio 2010\Projects\Web Synonym Finder\Web Synonym Finder\Web Synonym Finder.vcxproj" on node 2 (build target(s)).
+﻿Build started 5/2/2011 2:01:09 PM.
+Project "C:\Users\alexw\Documents\Visual Studio 2010\Projects\Web Synonym Finder\Web Synonym Finder\Web Synonym Finder.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
-  Touching "Debug\Web Synonym Finder.unsuccessfulbuild".
+  Creating "Debug\Web Synonym Finder.unsuccessfulbuild" because "AlwaysCreate" was specified.
 GenerateTargetFrameworkMonikerAttribute:
 Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
 ClCompile:
   All outputs are up-to-date.
-  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Web Synonym Finder.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.DataVisualization.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt "Web Synonym Finder.cpp" /clr:nostdlib 
-  Web Synonym Finder.cpp
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Web Synonym Finder.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.DataVisualization.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt webcrawler.cpp /clr:nostdlib 
+  webcrawler.cpp
+webcrawler.cpp(21): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
   All outputs are up-to-date.
 CoreResGen:
-  "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.DataVisualization.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile Form1.resX,Debug\WebSynonymFinder.Form1.resources
-  Processing resource file "Form1.resX" into "Debug\WebSynonymFinder.Form1.resources".
+  All outputs are up-to-date.
 ResourceCompile:
   All outputs are up-to-date.
 Link:
-  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\alexw\documents\visual studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:Debug\WebSynonymFinder.Form1.resources /MANIFEST /ManifestFile:"Debug\Web Synonym Finder.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"c:\users\alexw\documents\visual studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\app.res
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\alexw\Documents\Visual Studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.exe" /INCREMENTAL /NOLOGO Ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /ASSEMBLYRESOURCE:Debug\WebSynonymFinder.Form1.resources /MANIFEST /ManifestFile:"Debug\Web Synonym Finder.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\alexw\Documents\Visual Studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\app.res
   Debug\AssemblyInfo.obj
+  Debug\database.obj
+  Debug\NetworkParser.obj
+  Debug\Socket.obj
   Debug\stdafx.obj
   "Debug\Web Synonym Finder.obj"
+  Debug\webcrawler.obj
+  Debug\Worker.obj
   "Debug\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
-  Web Synonym Finder.vcxproj -> c:\users\alexw\documents\visual studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.exe
+  Web Synonym Finder.vcxproj -> C:\Users\alexw\Documents\Visual Studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.exe
 Manifest:
-  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"c:\users\alexw\documents\visual studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.exe;#1" /manifest "Debug\Web Synonym Finder.exe.intermediate.manifest"
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\alexw\Documents\Visual Studio 2010\Projects\Web Synonym Finder\Debug\Web Synonym Finder.exe;#1" /manifest "Debug\Web Synonym Finder.exe.intermediate.manifest"
 FinalizeBuildStatus:
   Deleting file "Debug\Web Synonym Finder.unsuccessfulbuild".
   Touching "Debug\Web Synonym Finder.lastbuildstate".
-Done Building Project "c:\Users\alexw\documents\visual studio 2010\Projects\Web Synonym Finder\Web Synonym Finder\Web Synonym Finder.vcxproj" (build target(s)).
+Done Building Project "C:\Users\alexw\Documents\Visual Studio 2010\Projects\Web Synonym Finder\Web Synonym Finder\Web Synonym Finder.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.76
+Time Elapsed 00:00:13.00
