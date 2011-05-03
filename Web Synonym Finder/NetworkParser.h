@@ -1,5 +1,7 @@
 #pragma once
+#include <string>
 using namespace std;
+
 
 struct PAGEINFO {		// structure declaration and definition
 	string text;
@@ -7,4 +9,4 @@ struct PAGEINFO {		// structure declaration and definition
 	int error;
 };
 
-PAGEINFO getTextUrl(PAGEINFO);
+PAGEINFO getTextUrl(std::string);

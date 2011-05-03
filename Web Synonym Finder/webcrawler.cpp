@@ -18,7 +18,7 @@ void MarshalString ( String ^ s, std::string& os ) {
 }
 
 webcrawler::webcrawler(WebSynonymFinder::Form1 ^f, String ^url, int count, String ^myword){
-	srand ( time(NULL) );
+	//srand ( time(NULL) );
 	url1 = url;
 	pages=count;
 	word= myword;
@@ -48,11 +48,7 @@ while(ii<pages)
 	std::string stdStringTextUrl;
 	String ^tempString = urlQ[ii];
 	MarshalString(tempString, stdStringTextUrl);
-	PAGEINFO mydata;
-	mydata.url = stdStringTextUrl;
-	mydata.text = "";
-	mydata.error =0;
-	mydata = getTextUrl(mydata); 
+	PAGEINFO mydata = getTextUrl(stdStringTextUrl); 
 	//PAGEINFO mydata = getTextUrl(it->Current);
 	sizeurl= mydata.url.length();
 	sizewords= mydata.text.length();
@@ -83,6 +79,7 @@ firstindex=0;
 secondindex=0;
 
 
+	mydata.text.append(" "); //Manually add a space so that we can't possibly encounter an index out of bounds below
 
 	//Loop through until you find the null
 	while(secondindex< sizewords-1) //*****!!!! Note need the string to be terminated with a whitespace as well as a NULL
@@ -134,7 +131,7 @@ secondindex=0;
 		//Instance of fox
 	itcount=0;
 //database mydata;	ask rusty about creating database
-	/*
+	
 do
 	{
 		//it4->System->Collections->IEnumerator->Reset;
@@ -153,7 +150,7 @@ do
 			{}
 			else{
 			//Otherwise update the database with the word (iterator3) and the distance between the found word (iterator2) and the given word in the string (iterator4)
-			mybase->update( it3->Current, abs(it2->Current)-it4->Current );  //
+			mybase->update( it3->Current, abs(it2->Current-it4->Current) );  //
 			}
 	it3->MoveNext();
 	it4->MoveNext();
@@ -161,15 +158,15 @@ do
 	
 	}
 	it2->MoveNext();
-	itcount;
+	itcount++;
 	}
 	while (itcount< int(foundindex->Count));
 
 	
-	*/
+	
 	ii++;
 	
-	mybase->update(word,rand()%10);
+	//mybase->update(word,rand()%10);
 }
 
 	//return 1;// Need to return -1 for failure?

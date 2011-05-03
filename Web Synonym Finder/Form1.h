@@ -17,9 +17,11 @@ namespace WebSynonymFinder {
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
+		bool showUnrealToggle;
 		Form1(void)
 		{
 			InitializeComponent();
+			showUnrealToggle = false;
 			//
 			//TODO: Add the constructor code here
 			//
@@ -53,6 +55,7 @@ namespace WebSynonymFinder {
 			}
 			else
 			{
+				//frm->UseWaitCursor = true;
 				int dgvLength = frm->dataGridView1->RowCount; //Get DGV number of rows.
 
 				// Delete a word if it already exists in the DGV
@@ -86,8 +89,25 @@ namespace WebSynonymFinder {
 					newRow->Cells[i]->ReadOnly = true;
 				}
 
+
 				frm->dataGridView1->Rows->Add(newRow); // Add the row to the table
 				frm->dataGridView1->Sort(frm->dataGridView1->Columns[1], System::ComponentModel::ListSortDirection::Ascending); // Resort the table
+
+
+				if(!frm->showUnrealToggle && !isWord){
+					//This would be the quick, elegant way to do it. If it worked:
+					//frm->dataGridView1->Rows[0]->Visible = false;
+					//frm->dataGridView1->RowCount-1
+
+					for(int ii=0;ii<frm->dataGridView1->RowCount;ii++){
+					if(frm->dataGridView1->Rows[ii]->Cells[2]->Value == "No"){
+					//FormattedValue->ToString()
+						frm->dataGridView1->Rows[ii]->Visible = false;
+					}
+				}
+				}
+
+				//frm->UseWaitCursor = false;
 
 				//Some fun debugging toys.
 				//frm->startUrl->Text = word;
@@ -129,6 +149,9 @@ private: System::Windows::Forms::Button^  goBtn;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  word;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  prox;
 private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
+private: System::Windows::Forms::Button^  showUnreal;
+private: System::Windows::Forms::Label^  label1;
+private: System::Windows::Forms::Button^  stopBtn;
 
 		 /// <summary>
 		/// Required designer variable.
@@ -153,6 +176,9 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 			this->prox = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->isreal = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->goBtn = (gcnew System::Windows::Forms::Button());
+			this->showUnreal = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->stopBtn = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -169,7 +195,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 			// wordOfInterestLabel
 			// 
 			this->wordOfInterestLabel->AutoSize = true;
-			this->wordOfInterestLabel->Location = System::Drawing::Point(9, 38);
+			this->wordOfInterestLabel->Location = System::Drawing::Point(9, 51);
 			this->wordOfInterestLabel->Name = L"wordOfInterestLabel";
 			this->wordOfInterestLabel->Size = System::Drawing::Size(86, 13);
 			this->wordOfInterestLabel->TabIndex = 1;
@@ -179,7 +205,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 			// numPagesLabel
 			// 
 			this->numPagesLabel->AutoSize = true;
-			this->numPagesLabel->Location = System::Drawing::Point(9, 64);
+			this->numPagesLabel->Location = System::Drawing::Point(9, 77);
 			this->numPagesLabel->Name = L"numPagesLabel";
 			this->numPagesLabel->Size = System::Drawing::Size(131, 13);
 			this->numPagesLabel->TabIndex = 2;
@@ -191,39 +217,43 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->startUrl->Location = System::Drawing::Point(72, 9);
 			this->startUrl->Name = L"startUrl";
-			this->startUrl->Size = System::Drawing::Size(283, 20);
+			this->startUrl->Size = System::Drawing::Size(271, 20);
 			this->startUrl->TabIndex = 3;
 			// 
 			// wordOfInterest
 			// 
 			this->wordOfInterest->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->wordOfInterest->Location = System::Drawing::Point(101, 35);
+			this->wordOfInterest->Location = System::Drawing::Point(101, 48);
 			this->wordOfInterest->Name = L"wordOfInterest";
-			this->wordOfInterest->Size = System::Drawing::Size(254, 20);
+			this->wordOfInterest->Size = System::Drawing::Size(242, 20);
 			this->wordOfInterest->TabIndex = 4;
 			// 
 			// numPages
 			// 
 			this->numPages->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->numPages->Location = System::Drawing::Point(146, 61);
+			this->numPages->Location = System::Drawing::Point(146, 74);
 			this->numPages->Name = L"numPages";
-			this->numPages->Size = System::Drawing::Size(114, 20);
+			this->numPages->Size = System::Drawing::Size(197, 20);
 			this->numPages->TabIndex = 5;
 			this->numPages->TextChanged += gcnew System::EventHandler(this, &Form1::numPages_TextChanged);
 			// 
 			// dataGridView1
 			// 
+			this->dataGridView1->AllowUserToAddRows = false;
+			this->dataGridView1->AllowUserToDeleteRows = false;
 			this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {this->word, this->prox, 
 				this->isreal});
-			this->dataGridView1->Location = System::Drawing::Point(12, 88);
+			this->dataGridView1->Location = System::Drawing::Point(12, 129);
 			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->Size = System::Drawing::Size(343, 581);
+			this->dataGridView1->ReadOnly = true;
+			this->dataGridView1->RowHeadersVisible = false;
+			this->dataGridView1->Size = System::Drawing::Size(331, 540);
 			this->dataGridView1->TabIndex = 6;
 			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::dataGridView1_CellContentClick);
 			// 
@@ -232,6 +262,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 			this->word->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::AllCells;
 			this->word->HeaderText = L"Word:";
 			this->word->Name = L"word";
+			this->word->ReadOnly = true;
 			this->word->Width = 61;
 			// 
 			// prox
@@ -239,6 +270,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 			this->prox->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::AllCells;
 			this->prox->HeaderText = L"Proximity to WOI";
 			this->prox->Name = L"prox";
+			this->prox->ReadOnly = true;
 			this->prox->Width = 81;
 			// 
 			// isreal
@@ -246,24 +278,59 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^  isreal;
 			this->isreal->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::AllCells;
 			this->isreal->HeaderText = L"Is Real\?";
 			this->isreal->Name = L"isreal";
+			this->isreal->ReadOnly = true;
 			this->isreal->Width = 66;
 			// 
 			// goBtn
 			// 
-			this->goBtn->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->goBtn->Location = System::Drawing::Point(266, 59);
+			this->goBtn->Location = System::Drawing::Point(12, 100);
 			this->goBtn->Name = L"goBtn";
-			this->goBtn->Size = System::Drawing::Size(89, 23);
+			this->goBtn->Size = System::Drawing::Size(83, 23);
 			this->goBtn->TabIndex = 7;
 			this->goBtn->Text = L"Go";
 			this->goBtn->UseVisualStyleBackColor = true;
 			this->goBtn->Click += gcnew System::EventHandler(this, &Form1::goBtn_Click);
 			// 
+			// showUnreal
+			// 
+			this->showUnreal->Location = System::Drawing::Point(101, 100);
+			this->showUnreal->Name = L"showUnreal";
+			this->showUnreal->Size = System::Drawing::Size(120, 23);
+			this->showUnreal->TabIndex = 8;
+			this->showUnreal->Text = L"Show unreal words";
+			this->showUnreal->UseVisualStyleBackColor = true;
+			this->showUnreal->Click += gcnew System::EventHandler(this, &Form1::showUnreal_Click);
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(9, 32);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(266, 13);
+			this->label1->TabIndex = 9;
+			this->label1->Text = L"Note: must use full URL, including http:// and trailing /!";
+			this->label1->Click += gcnew System::EventHandler(this, &Form1::label1_Click);
+			// 
+			// stopBtn
+			// 
+			this->stopBtn->Enabled = false;
+			this->stopBtn->Location = System::Drawing::Point(227, 100);
+			this->stopBtn->Name = L"stopBtn";
+			this->stopBtn->Size = System::Drawing::Size(83, 23);
+			this->stopBtn->TabIndex = 10;
+			this->stopBtn->Text = L"Stop";
+			this->stopBtn->UseVisualStyleBackColor = true;
+			this->stopBtn->Visible = false;
+			this->stopBtn->Click += gcnew System::EventHandler(this, &Form1::stopBtn_Click);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(371, 681);
+			this->ClientSize = System::Drawing::Size(359, 681);
+			this->Controls->Add(this->stopBtn);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->showUnreal);
 			this->Controls->Add(this->goBtn);
 			this->Controls->Add(this->dataGridView1);
 			this->Controls->Add(this->numPages);
@@ -357,6 +424,36 @@ private: System::Void goBtn_Click(System::Object^  sender, System::EventArgs^  e
 			 }
 		 }
 private: System::Void numPages_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void showUnreal_Click(System::Object^  sender, System::EventArgs^  e) {
+			showUnrealToggle = !showUnrealToggle;
+			if(showUnrealToggle){
+				//If it's set to show unreals:
+
+				//make unreals visible:
+				for(int ii=0;ii<this->dataGridView1->RowCount;ii++){
+					this->dataGridView1->Rows[ii]->Visible = true;
+				}
+
+				this->showUnreal->Text = "Hide unreal words";
+			}else{
+				//if it's set to hide unreals:
+
+				//make unreals invisible:
+				for(int ii=0;ii<this->dataGridView1->RowCount;ii++){
+					if(this->dataGridView1->Rows[ii]->Cells[2]->Value == "No"){
+					//FormattedValue->ToString()
+						this->dataGridView1->Rows[ii]->Visible = false;
+					}
+				}
+
+				this->showUnreal->Text = "Show unreal words";
+			}
+		 }
+private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void stopBtn_Click(System::Object^  sender, System::EventArgs^  e) {
+//			 TerminateThread(crawlerThread);
 		 }
 };
 }

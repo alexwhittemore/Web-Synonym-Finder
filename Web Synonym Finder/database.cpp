@@ -61,7 +61,7 @@ database::database(WebSynonymFinder::Form1 ^f)
 
 int database::update(System::String ^sysWord,int prox)
 {
-	srand ( time(NULL) );
+	//srand ( time(NULL) );
 	std::string word;
 	MarshalStringDB(sysWord,word);
   word = to_lowercase(word);
@@ -70,12 +70,38 @@ int database::update(System::String ^sysWord,int prox)
   // need to be able to tell if it is a word
   bool isWord = database::is_word(word);
   // find the average proximity
-  double ave = database::prox_mean(word);
-  
-  // tells the gui to updata
-	mainForm->update(mainForm,sysWord,ave,isWord);
 
-	
+  multimap<std::string, int>::iterator itr;
+  multimap<std::string, int>::iterator lastElement;
+
+  itr = data->find(word);
+  if (itr == data->end())
+    {
+      cout << "Error: "<<word<<" not found.";
+      // didn't find the word
+    }
+
+  // one past the last instance of word
+  lastElement = data->upper_bound(word);
+
+  // for each element from itr to lastElement
+  double count = 0;
+  double runsum = 0;
+  for (;itr != lastElement; ++itr)
+    {
+      if (itr->first==word)
+	{
+	  count++;
+	  runsum += itr->second;
+	}
+    }
+  double ave = runsum/count;
+  // tells the gui to updata
+  if(count>3)
+  {
+	mainForm->update(mainForm,sysWord,ave,isWord);
+  }
+	/*
 	//Do the random word
 	System::String ^randStr = dictArray[rand()*1000%dictSize];
 	std::string randword;
@@ -89,7 +115,7 @@ int database::update(System::String ^sysWord,int prox)
 	double randave = database::prox_mean(randword);
 
 	mainForm->update(mainForm,randStr,randave,israndWord);
-  
+  */
   return 0;
 }
 

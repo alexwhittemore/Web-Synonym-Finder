@@ -12,21 +12,50 @@ using namespace std;
 //PAGEINFO page;		// an PAGEINFO structure called page
 
 
-PAGEINFO getTextUrl(PAGEINFO page) {
-//	page.url = theurl;
-//	page.text = "";
-//	page.error = 0;
+PAGEINFO getTextUrl(std::string url) {
+	PAGEINFO page;
+	page.url = url;
+	page.text = "";
+	page.error = 0;
 
 	try {
 	int pos = page.url.find('/', 7);	// locate the end of the hostname
-	string initial= page.url.substr(7,pos-7);
+	string initial;
+	string extension;
+	string host;
+	if (page.url.substr(0,3) == "www")
+	{
+		if (pos == -1){
+		initial = page.url;
+		extension="/";
+		host = page.url;}
+	
+		else
+	{initial= page.url.substr(0,pos);
+	extension = page.url.substr(pos);
+		 host = page.url.substr(0,pos);}	
+	}
+	else
+	{
+		if (pos == -1){
+		initial = page.url.substr(7);
+		extension="/";
+		host = page.url.substr(7,page.url.length()-7);}
+	
+		else
+		{initial= page.url.substr(7,pos-7);
+		extension = page.url.substr(pos);
+		 host = page.url.substr(7,pos-7);}	
+
+	}
 		SocketClient s(initial, 80);
 
 		
-		string host = page.url.substr(7,pos-7);	// get the hostname string
-		string extension = page.url.substr(pos);	// get the rest of the website address
-		if (extension.empty())
+		host = page.url.substr(7,pos-7);	// get the hostname string
+		extension = page.url.substr(pos);	// get the rest of the website address
+		if (extension.empty()){
 			extension = "/";
+		}
 		
 		s.SendLine("GET " + extension + " HTTP/1.0");
 		s.SendLine("Host: " + host);
@@ -54,14 +83,26 @@ PAGEINFO getTextUrl(PAGEINFO page) {
 		}
 
 		while (l.find('\t') != string::npos) {	// clean out all tab characters
-			int ii = l.find('\t');
-			l.erase(ii,1);
+			int jj = l.find('\t');
+			l.erase(jj,1);
 		}
 
 		while (l.find('&') != string::npos) {	// clean out html characters.  ex: &copy;
 			int ii = l.find('&');
 			int ee = l.find(';',ii);
 			l.erase(ii,(ee-ii+1));
+		}
+
+		while (l.find("<script") != string::npos) {	// remove all of the script code
+			int xx = l.find("<script");
+			int yy = l.find("</script>");
+			l.erase(xx,(yy-xx+8));
+		}
+
+		while (l.find("<style") != string::npos) {	// remove all of the style code
+			int aa = l.find("<style");
+			int bb = l.find("</style>");
+			l.erase(aa,(bb-aa+7));
 		}
 
 		l.append("       ");	// buffer at end of string
@@ -72,28 +113,19 @@ PAGEINFO getTextUrl(PAGEINFO page) {
 
 		// Grab and record all the text (as seen on the website) in the html
 		bool grab = false;
-		static bool ignoreScript = false;
 		int counter = 0;
 		for (int it = 0; it < (int)line.size(); it++) {
 			if (line[it] == '>') {		// '>' 
-				if (line[it-7] == '<' && line[it-6] == 's' && line[it-5] == 'c' && line[it-4] == 'r' && line[it-3] == 'i' && line[it-2] == 'p' && line[it-1] == 't')
-					ignoreScript = true;	// stop recording
-				if (line[it-6] == '/' && line[it-5] == 's' && line[it-4] == 't' && line[it-3] == 'y' && line[it-2] == 'l' && line[it-1] == 'e')
-					ignoreScript = false;	// start recording
 				counter--;
 				grab = true;
 			}
 			else if (line[it] == '<') {	// '<' 
-				if (line[it+1] == '/' && line[it+2] == 's' && line[it+3] == 'c' && line[it+4] == 'r' && line[it+5] == 'i' && line[it+6] == 'p' && line[it+7] == 't' && line[it+8] == '>')
-					ignoreScript = false;	// start recording
-				if (line[it+1] == 's' && line[it+2] == 't' && line[it+3] == 'y' && line[it+4] == 'l' && line[it+5] == 'e')
-					ignoreScript = true;	// stop recording
 				counter++;
 				grab = false;
 			}
-			else if (grab == true && counter <= 0 && ignoreScript == false) {	// save the char to text string 
+			else if (grab == true && counter <= 0) {	// save the char to text string 
 				if (line[it] != 32) {
-						page.text.append(string(line[it],1));
+						page.text.append(string(1,line[it]));
 					if (line[it+1] == '<') {
 						page.text.append(" ");		// end of string
 						it++;
@@ -112,8 +144,8 @@ PAGEINFO getTextUrl(PAGEINFO page) {
 
 
 		// Grab all the URLs from the website
-		while (l.find("<a href=\"") != string::npos){	// look for: <a href="
-			int urlStart = l.find("<a href=\"");
+		while (l.find("<a href=\"http://") != string::npos){	// look for: <a href="
+			int urlStart = l.find("<a href=\"http://");
 			int textStart = l.find("\">",urlStart);		// skip to start of text, save start position
 			int textStart2 = l.find("\" ",urlStart);
 			int textEnd = l.find("</a>",textStart);		// seek to end of text, save end position
